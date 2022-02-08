@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "@babel/preset-env", // es6转换成es5
+    "@babel/preset-react" // 处理jsx文件
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-transform-runtime" // 处理一些@babel/preset-env处理不了的语法，如Promise、Generate等
+    ]
+  ]
+}
