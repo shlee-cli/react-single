@@ -6,9 +6,6 @@ import img from '../../assets/img/test.png'
 import {getUser} from '../../store/actions'
 
 class Home extends Component {
-  state = {
-    list: []
-  }
   componentDidMount () {
     this.props.getUser({user: 'sheriff'})
   }
