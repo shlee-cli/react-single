@@ -1,0 +1,9 @@
+{
+  "error": 0,
+  "msg": "请求成功",
+  "data": {
+    "name": "sheriff",
+    "address": "beijing",
+    "profession": "front end"
+  }
+}

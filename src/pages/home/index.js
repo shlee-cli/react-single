@@ -1,43 +1,38 @@
 import React, { Component } from 'react'
+import { connect } from "react-redux";
 import HomeStyle from './index.module.less'
 import Child from './child/test'
-import {reqUser} from '../../service/api'
 import img from '../../assets/img/test.png'
-import img2 from '../../assets/img/test2.png'
+import {getUser} from '../../store/actions'
 
-export default class Home extends Component {
+class Home extends Component {
   state = {
     list: []
   }
   componentDidMount () {
-    reqUser({user: 'sheriff'}).then(res => {
-      res = res.data
-      this.setState({
-        list: res.list
-      })
-    }).catch(err => {
-      console.log(err.msg)
-    })
+    this.props.getUser({user: 'sheriff'})
   }
   render() {
-    const {list} = this.state
+    const {name, address, profession} = this.props.user
+    console.log(this.props.user)
     return (
       <div>
         <h1 className={HomeStyle.name}>Home</h1>
         <div className='fs-12'>我使用common的样式</div>
         <p className={HomeStyle.desc}>我是home，我是home，我是home，我是home，我是home</p>
         <Child/>
-        {
-          list.map((item, index) => {
-            return <p key={index}>{item}</p>
-          })
-        }
+        <div>
+          姓名： {name} <br />
+          住址：{address} <br />
+          职业：{profession}
+        </div>
         <img src={img} alt="" />
-
-        <img src={img} alt="" />
-
-        <img src={img2} alt="" />
       </div>
     )
   }
 }
+
+export default connect(
+  state => ({user: state.user}),
+  {getUser} // 把ajax请求函数传入到组件内
+)(Home)
