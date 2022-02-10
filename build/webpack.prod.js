@@ -4,9 +4,13 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const { merge } = require('webpack-merge')
 const base = require('./webpack.base')
 const path = require('path')
+const myPlugin = require('./myPlugin')
 
 module.exports = merge(base, {
   mode: 'production',
+  plugins: [
+    new myPlugin()
+  ],
   optimization: {
     minimizer: [
       new TerserPlugin({
@@ -28,16 +32,9 @@ module.exports = merge(base, {
           test: /[\\/]react(.+?)[\\/]/,
           name: "react",
           priority: 5,
-          chunks: 'all'
+          chunks: 'initial'
         }
       }
     }
-  },
-  stats: {
-    colors: true,
-    modules: false,
-    children: false,
-    chunks: false,
-    chunkModules: false
   }
 })

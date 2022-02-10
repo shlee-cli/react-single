@@ -2,8 +2,9 @@ const path = require('path')
 const htmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require("mini-css-extract-plugin") // 抽离css
 const chalk = require('chalk')
-const ProgressBarPlugin = require('progress-bar-webpack-plugin')
 const getCSSModuleLocalIdent = require('react-dev-utils/getCSSModuleLocalIdent')
+const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin')
+const WebpackBar = require('webpackbar') // webpack编译显示的进度条
 
 // css
 const cssRegex = /\.css$/;
@@ -101,7 +102,17 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|svg|gif)$/,
-        type: "asset/inline",
+        type: "asset",
+        parser: {
+          dataUrlCondition: {
+            maxSize: 25 * 1024, // 大于25kb单独打包
+          }
+        },
+        generator:{ 
+          //与output.assetModuleFilename是相同的,这个写法引入的时候也会添加好这个路径
+          filename:'img/[name][ext]?t=[hash:8]',
+          // publicPath:'./'
+        },
       },
       {
         test: /\.(eot|ttf|woff|woff2)$/,
@@ -125,13 +136,15 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: "css/[name].css?t=[contenthash:8]",
     }),
-    new ProgressBarPlugin({
-      format: `:msg [:bar] ${chalk.green.bold(':percent')} (:elapsed s)`
+    new WebpackBar(),
+    new FriendlyErrorsWebpackPlugin({
+      clearConsole: false // 不要清空控制台
     })
   ],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src") // 路径别名
     }
-  }
+  },
+  stats: 'errors-only'
 }

@@ -13,7 +13,8 @@ module.exports = merge(base, {
     open: false, // 自动打开浏览器
     hot: true, // 启动热更新
     port: 8080, // 监听请求的端口号
-    onBeforeSetupMiddleware: function (devServer) {
+    // quiet: true,
+    setupMiddlewares: function (middlewares, devServer) {
       devServer.app.post("/api/*", function (req, res) {
         let reqPath = req.path.toLowerCase()
         fs.readFile(path.resolve(__dirname, `../mockdata/${reqPath}.json`), (err, data) => {
@@ -24,6 +25,7 @@ module.exports = merge(base, {
           }
         })
       })
+      return middlewares
     },
   }
 })

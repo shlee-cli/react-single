@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import HomeStyle from './index.module.less'
 import Child from './child/test'
 import {reqUser} from '../../service/api'
+import img from '../../assets/img/test.png'
+import img2 from '../../assets/img/test2.png'
 
 export default class Home extends Component {
   state = {
@@ -30,6 +32,11 @@ export default class Home extends Component {
             return <p key={index}>{item}</p>
           })
         }
+        <img src={img} alt="" />
+
+        <img src={img} alt="" />
+
+        <img src={img2} alt="" />
       </div>
     )
   }
