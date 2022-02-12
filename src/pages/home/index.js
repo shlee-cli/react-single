@@ -33,8 +33,3 @@ export default connect(
   state => ({user: state.user}),
   {getUser} // 把ajax请求函数传入到组件内
 )(Home)
-
-
-function testaaa(){
-  console.log('liwenjing')
-}
