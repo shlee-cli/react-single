@@ -28,35 +28,38 @@ module.exports = {
     filename: 'js/[name].js?t=[contenthash:8]',
     clean: true, // 在生成文件之前清空 output 目录
   },
+  cache: {
+    type: 'filesystem' // 开启缓存，提升构建速度
+  },
   module: {
     rules: [
-      // {
-      //   test: /\.(js|jsx)$/,
-      //   exclude: /node_modules/, // 不处理node_modules
-      //   include: [resolve('src')],
-      //   use: [
-      //     {
-      //       loader: 'babel-loader',
-      //       options: {
-      //         cacheDirectory: true,
-      //       }
-      //     }
-      //   ]
-      // },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/, // 不处理node_modules
         include: [resolve('src')],
         use: [
           {
-            loader: 'esbuild-loader',
+            loader: 'babel-loader',
             options: {
-              loader: 'jsx', // 不用jsx语法不用写
-              target: 'es2015'
+              cacheDirectory: true,
             }
           }
         ]
       },
+      // {
+      //   test: /\.(js|jsx)$/,
+      //   exclude: /node_modules/, // 不处理node_modules
+      //   include: [resolve('src')],
+      //   use: [
+      //     {
+      //       loader: 'esbuild-loader',
+      //       options: {
+      //         loader: 'jsx', 
+      //         target: 'es2015'
+      //       }
+      //     }
+      //   ]
+      // },
       // .css
       {
         test: cssRegex,
@@ -204,10 +207,11 @@ module.exports = {
     })
   ],
   resolve: {
-    extensions: ['.js', '.jsx', '.json'], // 引入模块时可以不写后缀
+    extensions: ['.js', '.jsx', '.json'], // 需要解析的文件类型
     alias: {
       "@": path.resolve(__dirname, "./src") // 路径别名
-    }
+    },
+    symlinks: false // 不使用yarn link
   },
   stats: 'errors-only'
 }
