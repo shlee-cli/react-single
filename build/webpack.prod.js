@@ -1,7 +1,7 @@
 const TerserPlugin = require("terser-webpack-plugin") // 压缩js
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin") // 压缩css
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin // 打包体积分析
-const { ESBuildMinifyPlugin, ESBuildPlugin } = require('esbuild-loader') // 会导致tree-shaking失效，暂时使用TerserPlugin
+// const { ESBuildMinifyPlugin, ESBuildPlugin } = require('esbuild-loader') // 会导致tree-shaking失效，暂时使用TerserPlugin
 const { merge } = require('webpack-merge')
 const base = require('./webpack.base')
 const path = require('path')
