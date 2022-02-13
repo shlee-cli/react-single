@@ -7,6 +7,10 @@ const base = require('./webpack.base')
 const path = require('path')
 const myPlugin = require('./myPlugin')
 
+function resolve(dir) {
+  return path.join(__dirname, '..', dir)
+}
+
 module.exports = merge(base, {
   mode: 'production',
   plugins: [
@@ -30,7 +34,6 @@ module.exports = merge(base, {
     // runtimeChunk: true, // 进一步拆分入口文件，减少入口文件的体积，但会增加网络请求
     // 拆包
     splitChunks: {
-      chunks: 'all',
       cacheGroups: {
         // 来自node_modules的第三方模块
         vendors: {
@@ -41,12 +44,12 @@ module.exports = merge(base, {
           enforce: true // 忽略minSize、minChunks、maxAsyncRequests、maxInitialRequests选项，以当前规则去分包
         },
         // react全家桶单独打包
-        // 'react': {
-        //   test: /[\\/]react(.+?)[\\/]/,
-        //   name: "react",
-        //   priority: 5,
-        //   chunks: 'all'
-        // }
+        'react': {
+          test: /[\\/]react(.+?)[\\/]/,
+          name: "react",
+          priority: 15,
+          chunks: 'initial'
+        }
       }
     }
   }

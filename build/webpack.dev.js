@@ -25,6 +25,16 @@ module.exports = merge(base, {
           }
         })
       })
+      devServer.app.get("/api/*", function (req, res) {
+        let reqPath = req.path.toLowerCase()
+        fs.readFile(path.resolve(__dirname, `../mockdata/${reqPath}.json`), (err, data) => {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json(JSON.parse(data));
+          }
+        })
+      })
       return middlewares
     },
   }

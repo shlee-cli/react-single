@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from "axios"
+import qs from "qs"
 
 // 设置请求的域名
 const getBaseUrl = (env) => {
@@ -15,8 +16,12 @@ class Axios {
     this.baseURL = getBaseUrl(process.env.NODE_ENV)
     // 超时时间
     this.timeout = 10000
-    // 超时时间
+    // 携带cookie
     this.withCredentials = true
+    // 默认请求方式
+    this.method = 'POST'
+    // 默认header
+    this.headers = {}
   }
 
   request = (options) => {
@@ -24,12 +29,17 @@ class Axios {
     // 将自定义参数和公共参数合并
     const config = {
       url: options.url,
-      data: options.data || {},
-      method: options.method || 'POST',
+      method: options.method || this.method,
       timeout: options.timeout || this.timeout,
-      headers: options.headers || '',
+      headers: options.headers || this.headers,
       baseUrl: this.baseUrl,
       withCredentials: this.withCredentials
+    }
+    // data、method
+    if (config.method == this.method) {
+      config.data = qs.stringify(options.data) || ''
+    } else {
+      config.params = options.data || ''
     }
     // 设置拦截器
     this.setInterceptors(instance, options.url)
@@ -41,6 +51,7 @@ class Axios {
     // 请求拦截
     instance.interceptors.request.use(config => {
       // 设置token、loading等
+      console.log('111111111111', config.data)
       return config
     }, err => {
       Promise.reject(err)
