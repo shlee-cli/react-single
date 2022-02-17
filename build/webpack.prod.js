@@ -42,14 +42,7 @@ module.exports = merge(base, {
           priority: 10,
           chunks: 'all',
           enforce: true // 忽略minSize、minChunks、maxAsyncRequests、maxInitialRequests选项，以当前规则去分包
-        },
-        // // react全家桶单独打包
-        // 'react': {
-        //   test: /[\\/]react(.+?)[\\/]/,
-        //   name: "react",
-        //   priority: 15,
-        //   chunks: 'initial'
-        // }
+        }
       }
     }
   }
